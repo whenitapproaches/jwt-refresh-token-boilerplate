@@ -10,14 +10,24 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "@hapi/joi": "^17.1.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
+    "mongoose": "^5.9.26",
     "nodemon": "^2.0.4"
   },
   "devDependencies": {
-    "chalk": "^4.1.0"
+    "chalk": "^4.1.0",
+    "morgan": "^1.10.0"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@utils": "src/utils",
+    "@configs": "src/configs",
+    "@common": "src/common",
+    "@components": "src/components"
   }
 }
