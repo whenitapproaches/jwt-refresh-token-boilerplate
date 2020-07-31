@@ -1,28 +1,28 @@
+const makeHttpResponse = require("@common/http-response")
+
 module.exports = function makePostUser({ signupUser }) {
   return async function postUser(httpRequest) {
     try {
-      let userInfo = httpRequest.body
-      let user = await signupUser(userInfo)
-      return {
+      let userInfo = httpRequest.getBody()
+      let result = await signupUser(userInfo)
+      return makeHttpResponse({
         headers: {
           "Content-Type": "application/json",
         },
-        statusCode: 200,
         body: {
-          user
-        }
-      }
+          message: "Signed up successfully.",
+          result,
+        },
+      })
     } catch (error) {
-      console.log(error)
-      return {
+      return makeHttpResponse({
         headers: {
           "Content-Type": "application/json",
         },
-        statusCode: 400,
         body: {
-          error: error.message,
+          result,
         },
-      }
+      })
     }
   }
 }
