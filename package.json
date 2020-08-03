@@ -30,6 +30,7 @@
     "@utils": "src/utils",
     "@configs": "src/configs",
     "@common": "src/common",
-    "@components": "src/components"
+    "@components": "src/components",
+    "@security": "src/security"
   }
 }

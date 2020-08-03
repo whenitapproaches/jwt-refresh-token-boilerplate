@@ -33,8 +33,14 @@ module.exports = function makeSigninUser({
       user.getHashedPassword()
     )
     if (!isPasswordMatched) throw new Error("Wrong password.")
+
+    let accessToken = accessTokenManager.generateAccessToken({
+      username: user.getUsername(),
+    })
+
     return {
       username: user.getUsername(),
+      accessToken
     }
   }
 }

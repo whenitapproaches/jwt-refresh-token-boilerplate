@@ -5,9 +5,16 @@ const usersDb = require("../data-access")
 
 const { signupValidator, signinValidator } = require("../validators")
 
+const { accessTokenManager } = require("@security")
+
 module.exports = Object.freeze({
   signupUser: makeSignupUser({ usersDb, signupValidator }),
-  signinUser: makeSigninUser({ usersDb, comparePassword, signinValidator }),
+  signinUser: makeSigninUser({
+    usersDb,
+    comparePassword,
+    signinValidator,
+    accessTokenManager,
+  }),
 })
 
 const bcrypt = require("bcrypt")

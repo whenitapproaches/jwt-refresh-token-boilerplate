@@ -5,7 +5,7 @@ module.exports = function makeAccessTokenManager({
   moment,
 }) {
   function makeJWTExp() {
-    return moment().add(jwt_time.split(" "))
+    return moment().add(...jwt_time.split(" ")).unix()
   }
 
   return {
