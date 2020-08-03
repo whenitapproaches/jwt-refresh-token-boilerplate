@@ -9,6 +9,7 @@ module.exports = {
     authentication: {
       jwt_time: '1 minute',
       refresh_token_time: '60 minutes'
-    }
+    },
+    private_key: process.env.PRIVATE_KEY || 'private_key_here'
   },
 }

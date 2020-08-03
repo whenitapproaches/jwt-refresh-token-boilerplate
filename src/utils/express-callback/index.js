@@ -14,10 +14,11 @@ module.exports = function makeExpressCallback(controller) {
         response.set(headers).status(statusCode).type(type)
         response.send(body)
       })
-      .catch((error) =>
+      .catch((error) => {
+        console.log(error)
         response.status(500).send({
           error: "An unknown error occurred.",
         })
-      )
+      })
   }
 }

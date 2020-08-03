@@ -1,22 +1,25 @@
+const user = require("../entity/user")
+
 module.exports = function makeUsersDb({ userModel }) {
   return Object.freeze({
     create,
     update,
     remove,
     findById,
-    findOne
+    findOne,
+    exists
   })
-  async function findById({ id: _id }) {
-    let result = await userModel.findById(id)
-    return result
+  function findById({ id: _id }) {
+    return userModel.findById(id)
   }
-  async function findOne(userInfo) {
-    let result = await userModel.findOne(userInfo)
-    return result
+  function findOne(userInfo) {
+    return userModel.findOne(userInfo)
   }
-  async function create({ id, ...userInfo }) {
-    let result = await userModel.create({ _id: id, ...userInfo })
-    return result
+  function create({ id, ...userInfo }) {
+    return userModel.create({ _id: id, ...userInfo })
+  }
+  function exists({ username }) {
+    return userModel.exists({ username })
   }
   async function update({}) {}
   async function remove({}) {}

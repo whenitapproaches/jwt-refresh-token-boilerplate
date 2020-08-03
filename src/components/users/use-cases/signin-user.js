@@ -15,18 +15,22 @@ module.exports = function makeSigninUser({
   usersDb,
   comparePassword,
   signinValidator,
-  accessTokenGenerator,
+  accessTokenManager,
 }) {
   return async function signinUser(credentials) {
     await signinValidator.validateAsync(credentials)
-    let user = await makeUser(credentials)
     let existUser = await usersDb.findOne({
-      username: user.getUsername(),
+      username: credentials.username,
     })
     if (!existUser) throw new Error("Username not found.")
+    // make entity
+    let user = await makeUser({
+      username: existUser.username,
+      hashedPassword: existUser.password,
+    })
     let isPasswordMatched = await comparePassword(
-      user.getPassword(),
-      existUser.password
+      credentials.password,
+      user.getHashedPassword()
     )
     if (!isPasswordMatched) throw new Error("Wrong password.")
     return {

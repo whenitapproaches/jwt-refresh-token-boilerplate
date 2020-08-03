@@ -9,8 +9,8 @@ module.exports = function makePostUser({ signupUser }) {
         headers: {
           "Content-Type": "application/json",
         },
+        message: "Signed up successfully.",
         body: {
-          message: "Signed up successfully.",
           result,
         },
       })
@@ -19,9 +19,7 @@ module.exports = function makePostUser({ signupUser }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: {
-          result,
-        },
+        error: error,
       })
     }
   }
