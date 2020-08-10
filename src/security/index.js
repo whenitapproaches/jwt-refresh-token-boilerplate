@@ -4,6 +4,7 @@ const private_key = configs.app.private_key
 const jwt_time = configs.app.authentication.jwt_time
 const moment = require("moment")
 const makeAccessTokenManager = require("./access_token_manager")
+const makeExpressMiddlewares = require('@utils/express-middleware')
 
 module.exports = {
   accessTokenManager: makeAccessTokenManager({
@@ -12,4 +13,5 @@ module.exports = {
     jwt_time,
     moment,
   }),
+  
 }

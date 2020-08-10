@@ -4,6 +4,7 @@ module.exports = function buildMakeHttpResponse({ errorHandler }) {
     error = null,
     body = {},
     type = "json",
+    cookies = []
   }) {
     let { statusCode, message = "" } = errorHandler(error)
     if (message) body.message = message
@@ -12,6 +13,7 @@ module.exports = function buildMakeHttpResponse({ errorHandler }) {
       getStatusCode: () => statusCode,
       getHeaders: () => headers,
       getType: () => type,
+      getCookies: () => cookies
     }
   }
 }

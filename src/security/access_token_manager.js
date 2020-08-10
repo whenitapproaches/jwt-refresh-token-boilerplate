@@ -4,14 +4,19 @@ module.exports = function makeAccessTokenManager({
   jwt_time,
   moment,
 }) {
-  function makeJWTExp() {
-    return moment().add(...jwt_time.split(" ")).unix()
+  function makeAccessTokenExpiration() {
+    return moment()
+      .add(...jwt_time.split(" "))
+      .unix()
   }
 
   return {
     generateAccessToken(payload) {
-      let exp = makeJWTExp()
+      let exp = makeAccessTokenExpiration()
       return jwt.sign({ ...payload, exp: exp }, private_key)
+    },
+    verifyAccessToken(token) {
+      return jwt.verify(token, private_key)
     },
   }
 }
