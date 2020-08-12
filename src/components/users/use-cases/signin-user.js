@@ -28,20 +28,13 @@ module.exports = function makeSigninUser({
     )
     if (!isPasswordMatched) throw new Error("Wrong password.")
 
-    let { refresh_token, refresh_token_expired_at } = existingUser
-    let refreshTokenValidation = refreshTokenManager.validate({
+    let refresh_token = refreshTokenManager.generate()
+    let refresh_token_expired_at = refreshTokenManager.generateExpirationDate()
+    await usersDb.updateById({
+      id,
       refresh_token,
       refresh_token_expired_at,
     })
-    if (!refreshTokenValidation) {
-      refresh_token = refreshTokenManager.generate()
-      refresh_token_expired_at = refreshTokenManager.generateExpirationDate()
-      await usersDb.updateById({
-        id,
-        refresh_token,
-        refresh_token_expired_at,
-      })
-    }
 
     let accessToken = accessTokenManager.generate({
       username: userEntity.getUsername(),
@@ -52,7 +45,7 @@ module.exports = function makeSigninUser({
       username: userEntity.getUsername(),
       access_token: accessToken,
       refresh_token,
-      refresh_token_expired_at
+      refresh_token_expired_at,
     }
   }
 }

@@ -12,7 +12,7 @@ module.exports = function makeRefreshTokenManager({
       let parsed = configs.app.authentication.refresh_token_time.split(" ")
       let duration = parsed[0]
       let unit = parsed[1]
-      return time().add(duration, unit)
+      return time().add(duration, unit).toDate()
     },
     verify({ clientRefreshToken, serverRefreshToken }) {
       return clientRefreshToken === serverRefreshToken
