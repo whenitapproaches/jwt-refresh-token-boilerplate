@@ -8,7 +8,7 @@ module.exports = {
     api_root_uri: process.env.API_ROOT_URI || 'api',
     authentication: {
       jwt_time: '1 minute',
-      refresh_token_time: '60 minutes'
+      refresh_token_time: '15 minutes'
     },
     private_key: process.env.PRIVATE_KEY || 'private_key_here'
   },

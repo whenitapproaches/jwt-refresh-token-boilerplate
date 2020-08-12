@@ -4,7 +4,8 @@ const configs = require('@configs')
 const chalk = require('chalk')
 mongoose.connect(configs.app.database_uri + '/' + configs.app.database_name, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 })
 .then(() => console.log(chalk.green('Database connected.')))
 .catch(err => console.log(err))

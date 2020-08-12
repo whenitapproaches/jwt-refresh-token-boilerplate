@@ -3,6 +3,10 @@ const mongoose = require("@configs/db")
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
+  _id: {
+    type: String,
+    required: true
+  },
   username: {
     type: String,
     required: true,
@@ -11,11 +15,17 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  createdAt: {
+  refresh_token: {
+    type: String,
+  },
+  refresh_token_expired_at: {
+    type: Date
+  },
+  created_at: {
     type: Date,
     required: true,
   },
-  updatedAt: {
+  updated_at: {
     type: Date,
     required: true,
   },

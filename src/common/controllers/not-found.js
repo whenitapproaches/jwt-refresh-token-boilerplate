@@ -1,11 +1,15 @@
-module.exports = function notFound() {
-  return {
+const makeHttpResponse = require("@common/http-response")
+
+const NotFoundError = {
+  name: "NotFoundError",
+  message: "Not Found."
+}
+
+module.exports = async function notFound() {
+  return makeHttpResponse({
     headers: {
-      'Content-Type': 'application/json',
-      body: {
-        error: 'Not Found'
-      },
-      statusCode: 404
-    }
-  }
+      "Content-Type": "application/json",
+    },
+    error: NotFoundError
+  })
 }

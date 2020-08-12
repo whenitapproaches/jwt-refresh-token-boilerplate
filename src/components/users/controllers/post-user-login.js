@@ -15,7 +15,6 @@ module.exports = function makePostUserLogin({ signinUser }) {
         },
       })
     } catch (error) {
-      console.log(error)
       return makeHttpResponse({
         headers: {
           "Content-Type": "application/json",

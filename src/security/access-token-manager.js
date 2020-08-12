@@ -11,11 +11,11 @@ module.exports = function makeAccessTokenManager({
   }
 
   return {
-    generateAccessToken(payload) {
+    generate(payload) {
       let exp = makeAccessTokenExpiration()
       return jwt.sign({ ...payload, exp: exp }, private_key)
     },
-    verifyAccessToken(token) {
+    verify(token) {
       return jwt.verify(token, private_key)
     },
   }

@@ -1,17 +1,18 @@
-module.exports = function buildMakeUser({ validator, encrypt }) {
+module.exports = function buildMakeUser({ Id, validator, encrypt }) {
   return async function makeUser({
+    id = Id.makeId(),
     username,
-    password,
+    password = "",
     hashedPassword = "",
-    createdAt = Date.now(),
-    updatedAt = Date.now(),
+    created_at = Date.now(),
+    updated_at = Date.now(),
   } = {}) {
     try {
       await validator.validateAsync({
         username,
         password,
       })
-      if (!hashedPassword) hashedPassword = await encrypt(password)
+      if(password && !hashedPassword) hashedPassword = await encrypt(password)
     } catch (error) {
       throw new Error(error)
     }
@@ -20,8 +21,9 @@ module.exports = function buildMakeUser({ validator, encrypt }) {
       getUsername: () => username,
       getPassword: () => password,
       getHashedPassword: () => hashedPassword,
-      getCreatedAt: () => createdAt,
-      getUpdatedAt: () => updatedAt,
+      getCreatedAt: () => created_at,
+      getUpdatedAt: () => updated_at,
+      getId: () => id
     })
   }
 }

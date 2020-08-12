@@ -1,46 +1,58 @@
 const makeUser = require("../entity")
 
-/**
- *
- *
- * @param {*} {
- *   usersDb,
- *   comparePassword,
- *   signinValidator,
- *   accessTokenGenerator
- * }
- * @returns SigninUser use case
- */
 module.exports = function makeSigninUser({
   usersDb,
   comparePassword,
   signinValidator,
   accessTokenManager,
+  refreshTokenManager,
 }) {
   return async function signinUser(credentials) {
     await signinValidator.validateAsync(credentials)
-    let existUser = await usersDb.findOne({
+    let existingUser = await usersDb.findOne({
       username: credentials.username,
     })
-    if (!existUser) throw new Error("Username not found.")
+    if (!existingUser) throw new Error("Username not found.")
     // make entity
-    let user = await makeUser({
-      username: existUser.username,
-      hashedPassword: existUser.password,
+    let { _id: id, username, password, created_at, updated_at } = existingUser
+    let userEntity = await makeUser({
+      username,
+      id,
+      hashedPassword: password,
+      created_at,
+      updated_at,
     })
     let isPasswordMatched = await comparePassword(
       credentials.password,
-      user.getHashedPassword()
+      userEntity.getHashedPassword()
     )
     if (!isPasswordMatched) throw new Error("Wrong password.")
 
-    let accessToken = accessTokenManager.generateAccessToken({
-      username: user.getUsername(),
+    let { refresh_token, refresh_token_expired_at } = existingUser
+    let refreshTokenValidation = refreshTokenManager.validate({
+      refresh_token,
+      refresh_token_expired_at,
+    })
+    if (!refreshTokenValidation) {
+      refresh_token = refreshTokenManager.generate()
+      refresh_token_expired_at = refreshTokenManager.generateExpirationDate()
+      await usersDb.updateById({
+        id,
+        refresh_token,
+        refresh_token_expired_at,
+      })
+    }
+
+    let accessToken = accessTokenManager.generate({
+      username: userEntity.getUsername(),
     })
 
     return {
-      username: user.getUsername(),
-      accessToken
+      id: userEntity.getId(),
+      username: userEntity.getUsername(),
+      access_token: accessToken,
+      refresh_token,
+      refresh_token_expired_at
     }
   }
 }

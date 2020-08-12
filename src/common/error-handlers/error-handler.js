@@ -10,6 +10,9 @@ module.exports = function makeErrorHandler({ STATUS_CODES }) {
       case "ValidationError":
         result.statusCode = STATUS_CODES.UNPROCESSABLE_ENTITY
         break
+      case "NotFoundError":
+        result.statusCode = STATUS_CODES.NOT_FOUND
+        break
       default:
         result.statusCode = STATUS_CODES.BAD_REQUEST
     }

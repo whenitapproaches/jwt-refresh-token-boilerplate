@@ -27,6 +27,10 @@ const user = require("@components/users")
 
 app.use(user)
 
+const notFoundController = require('@common/controllers/not-found')
+const makeExpressCallback = require('@utils/express-callback')
+app.use(makeExpressCallback(notFoundController))
+
 let port = configs.app.port
 app.listen(port, () => {
   console.log(chalk.green("Server is listening on " + port))

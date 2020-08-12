@@ -3,17 +3,21 @@ const user = require("../entity/user")
 module.exports = function makeUsersDb({ userModel }) {
   return Object.freeze({
     create,
-    update,
-    remove,
     findById,
     findOne,
-    exists
+    findAll,
+    removeById,
+    exists,
+    updateById,
   })
-  function findById({ id: _id }) {
+  function findById({ id }) {
     return userModel.findById(id)
   }
-  function findOne(userInfo) {
-    return userModel.findOne(userInfo)
+  function findOne({ username }) {
+    return userModel.findOne({ username })
+  }
+  function findAll() {
+    return userModel.find()
   }
   function create({ id, ...userInfo }) {
     return userModel.create({ _id: id, ...userInfo })
@@ -21,6 +25,10 @@ module.exports = function makeUsersDb({ userModel }) {
   function exists({ username }) {
     return userModel.exists({ username })
   }
-  async function update({}) {}
-  async function remove({}) {}
+  function updateById({ id, ...changes }) {
+    return userModel.findByIdAndUpdate(id, changes)
+  }
+  function removeById({ id }) {
+    return userModel.findByIdAndDelete(id)
+  }
 }
